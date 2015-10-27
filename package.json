@@ -1,0 +1,12 @@
+{
+  "name": "openseadragon-browser-extension",
+  "version": "0.0.1",
+  "description": "Browser extension for OpenSeadragon. The version listed here is just to keep NPM happy, but it's not the current OpenSeadragon version (so we don't have to try to keep them in sync).",
+  "license": "BSD-3-Clause",
+  "repository": "https://github.com/openseadragon/browser-extension.git",
+  "devDependencies": {
+    "grunt-jpm": "~0.1.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-clean": "^0.6.0"
+  }
+}
