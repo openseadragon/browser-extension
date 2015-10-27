@@ -1,5 +1,9 @@
 # OpenSeadragonizer: zooming browser extension
 
+## Usage
+
+With the browser extension installed, right click on any image on a webpage and select "View with OpenSeadragon".
+
 ## Development
 
 ### First Time Setup
@@ -23,3 +27,9 @@ To build, just run (on the command line, in the browser-extension folder):
 If you want Grunt to watch your source files and rebuild every time you change one, use:
 
     grunt watch
+
+### Installing in Chrome
+
+1. Go to your Chrome settings and then extensions.
+1. Turn on the "Developer mode" checkbox.
+1. Choose "Load unpacked extension" and select build/chromium from this repository.
