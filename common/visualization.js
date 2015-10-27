@@ -22,7 +22,7 @@
             },
             visibilityRatio: 1,
             constrainDuringPan: true,
-            maxZoomPixelRatio: 1
+            maxZoomPixelRatio: 2
         });
     };
 
