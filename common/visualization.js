@@ -1,6 +1,10 @@
 (function () {
     var contentDiv = document.getElementById("contentDiv");
-    contentDiv.style.height = window.innerHeight + "px";
+    function setFullHeight() {
+        contentDiv.style.height = window.innerHeight + "px";
+    }
+    setFullHeight();
+    window.onresize = setFullHeight;
 
     var image = new Image(window.innerWidth, window.innerHeight);
     contentDiv.appendChild(image);
@@ -8,7 +12,7 @@
     image.onload = function () {
         contentDiv.removeChild(image);
         document.title = "OpenSeadragon " + imgUrl +
-                        " (" + image.naturalWidth + "x" + image.naturalHeight + ")";
+                " (" + image.naturalWidth + "x" + image.naturalHeight + ")";
         OpenSeadragon({
             id: "contentDiv",
             prefixUrl: "openseadragon/images/",
