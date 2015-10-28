@@ -6,6 +6,15 @@
     setFullHeight();
     window.onresize = setFullHeight;
 
+    var imgUrl = OpenSeadragon.getUrlParameter("img");
+    if (!imgUrl) {
+        contentDiv.innerHTML =
+                "No image specified.<br>" +
+                "Set the image in the URL like this:<br>" +
+                "visualization.html?img=http://example.org/bigimage.jpg";
+        return;
+    }
+
     var image = new Image(window.innerWidth, window.innerHeight);
     contentDiv.appendChild(image);
 
@@ -31,7 +40,6 @@
         });
     };
 
-    var imgUrl = OpenSeadragon.getUrlParameter("img");
     image.src = imgUrl;
     document.title = "OpenSeadragon " + imgUrl;
 })();
