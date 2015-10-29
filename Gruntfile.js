@@ -48,7 +48,14 @@ module.exports = function (grunt) {
     // ----------
     // Firefox build task.
     grunt.registerTask("build:firefox", function () {
-        // Nothing for now
+        grunt.file.recurse("firefox", function (abspath, rootdir, subdir, filename) {
+            subdir = subdir ? subdir + "/" : "";
+            grunt.file.copy(abspath, "build/firefox/" + subdir + filename);
+        });
+        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
+            subdir = subdir ? subdir + "/" : "";
+            grunt.file.copy(abspath, "build/firefox/data/" + subdir + filename);
+        });
     });
 
     // ----------

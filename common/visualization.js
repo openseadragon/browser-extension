@@ -15,6 +15,10 @@
         return;
     }
 
+    if (!imgUrl.startsWith("http://")) {
+        imgUrl = "http://" + imgUrl;
+    }
+
     var image = new Image(window.innerWidth, window.innerHeight);
     contentDiv.appendChild(image);
 
