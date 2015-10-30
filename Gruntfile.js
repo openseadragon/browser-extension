@@ -89,6 +89,7 @@ module.exports = function (grunt) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/firefox/data/" + subdir + filename);
         });
+        grunt.file.copy("build/firefox/data/logo48.png", "build/firefox/icon.png");
         grunt.task.run("jpm:xpi");
     });
 
