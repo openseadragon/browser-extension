@@ -3,6 +3,9 @@ module.exports = function (grunt) {
     // ----------
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-contrib-compress");
+    grunt.loadNpmTasks("grunt-jpm");
+    grunt.loadNpmTasks("grunt-crx");
 
     // ----------
     // Project configuration.
@@ -15,6 +18,35 @@ module.exports = function (grunt) {
         watch: {
             files: ["Gruntfile.js", "chromium/*", "firefox/*", "common/*"],
             tasks: "watchTask"
+        },
+        jpm: {
+            options: {
+                src: "build/firefox",
+                xpi: "build"
+            }
+        },
+        crx: {
+            crx: {
+                "src": "build/chromium/**/*",
+                "dest": "build",
+                "options": {
+                    "privateKey": "../openseadragonizer.pem"
+                }
+            }
+        },
+        compress: {
+            chromium: {
+                options: {
+                    archive: "build/chromium.zip"
+                },
+                files: [{
+                        expand: true,
+                        cwd: "build/chromium",
+                        src: ["**/*"],
+                        dest: ""
+                    }
+                ]
+            }
         }
     });
 
@@ -43,6 +75,7 @@ module.exports = function (grunt) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
         });
+        grunt.task.run("compress:chromium");
     });
 
     // ----------
@@ -56,6 +89,7 @@ module.exports = function (grunt) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/firefox/data/" + subdir + filename);
         });
+        grunt.task.run("jpm:xpi");
     });
 
     // ----------

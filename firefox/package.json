@@ -1,7 +1,7 @@
 {
     "title": "OpenSeadragonizer",
           "name": "openseadragonizer",
-          "version": "0.0.1",
+          "version": "1.0.0",
           "description": "Display big images in OpenSeadragon to enable zoom and pan",
           "main": "index.js",
           "author": "OpenSeadragon contributors",
