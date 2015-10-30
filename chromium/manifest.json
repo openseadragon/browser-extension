@@ -7,8 +7,7 @@
         "scripts": ["chromium.js"]
     },
     "permissions": [
-        "contextMenus",
-        "tabs"
+        "contextMenus"
     ],
     "icons": {
         "16": "logo16.png",
