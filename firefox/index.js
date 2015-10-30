@@ -6,11 +6,11 @@ var menuItem = contextMenu.Item({
     label: "View in OpenSeadragon",
     image: self.data.url("logo16.png"),
     context: contextMenu.SelectorContext("img"),
-    contentScript: 'self.on("click", function (node) {' +
-            '  self.postMessage(node.src);' +
-            '});',
+    contentScriptFile: self.data.url("contentScript.js"),
     onMessage: function (imgUrl) {
-        imgUrl = imgUrl.replace("http://", "");
-        tabs.open("visualization.html?img=" + imgUrl);
+        var protocol = imgUrl.split("/")[0].replace(":", "");
+        imgUrl = imgUrl.replace(protocol + "://", "");
+        tabs.activeTab.url = self.data.url("visualization.html?img=" + imgUrl +
+                "&protocol=" + protocol);
     }
 });

@@ -15,8 +15,9 @@
         return;
     }
 
-    if (!imgUrl.startsWith("http://")) {
-        imgUrl = "http://" + imgUrl;
+    var protocol = OpenSeadragon.getUrlParameter("protocol");
+    if (protocol) {
+        imgUrl = protocol + "://" + imgUrl;
     }
 
     var image = new Image(window.innerWidth, window.innerHeight);
