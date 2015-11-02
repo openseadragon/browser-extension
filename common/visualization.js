@@ -1,5 +1,5 @@
 (function () {
-    openSeadragonizerOptions = openSeadragonizerOptions || {};
+    var openSeadragonizerOptions = window.openSeadragonizerOptions || {};
 
     var contentDiv = document.getElementById("contentDiv");
     function setFullHeight() {
