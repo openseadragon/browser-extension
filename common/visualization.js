@@ -1,4 +1,6 @@
 (function () {
+    openSeadragonizerOptions = openSeadragonizerOptions || {};
+
     var contentDiv = document.getElementById("contentDiv");
     function setFullHeight() {
         contentDiv.style.height = window.innerHeight + "px";
@@ -6,7 +8,8 @@
     setFullHeight();
     window.onresize = setFullHeight;
 
-    var imgUrl = OpenSeadragon.getUrlParameter("img");
+    var imgUrl = openSeadragonizerOptions.imgUrl ||
+            OpenSeadragon.getUrlParameter("img");
     if (!imgUrl) {
         contentDiv.innerHTML =
                 "No image specified.<br>" +
@@ -15,11 +18,7 @@
         return;
     }
 
-    var protocol = OpenSeadragon.getUrlParameter("protocol");
-    if (protocol) {
-        imgUrl = protocol + "://" + imgUrl;
-    }
-
+// TODO: remove width/height
     var image = new Image(window.innerWidth, window.innerHeight);
     contentDiv.appendChild(image);
 
