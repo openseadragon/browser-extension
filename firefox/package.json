@@ -6,8 +6,7 @@
           "main": "index.js",
           "author": "OpenSeadragon contributors",
           "engines": {
-              "firefox": ">=38.0a1",
-              "fennec": ">=38.0a1"
+              "firefox": ">=38.0a1"
           },
           "license": "BSD-3-Clause",
           "keywords": [
