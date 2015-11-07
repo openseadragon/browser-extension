@@ -67,11 +67,11 @@ module.exports = function (grunt) {
     // ----------
     // Chromium build task.
     grunt.registerTask("build:chromium", function () {
-        grunt.file.recurse("chromium", function (abspath, rootdir, subdir, filename) {
+        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
         });
-        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
+        grunt.file.recurse("chromium", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
         });
@@ -81,13 +81,13 @@ module.exports = function (grunt) {
     // ----------
     // Firefox build task.
     grunt.registerTask("build:firefox", function () {
-        grunt.file.recurse("firefox", function (abspath, rootdir, subdir, filename) {
-            subdir = subdir ? subdir + "/" : "";
-            grunt.file.copy(abspath, "build/firefox/" + subdir + filename);
-        });
         grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/firefox/data/" + subdir + filename);
+        });
+        grunt.file.recurse("firefox", function (abspath, rootdir, subdir, filename) {
+            subdir = subdir ? subdir + "/" : "";
+            grunt.file.copy(abspath, "build/firefox/" + subdir + filename);
         });
         grunt.file.copy("build/firefox/data/logo48.png", "build/firefox/icon.png");
         grunt.task.run("jpm:xpi");
