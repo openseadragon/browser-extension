@@ -29,32 +29,25 @@
  */
 window.OpenSeadragonizer = {
     open: function (url) {
-        var contentDiv = document.getElementById("contentDiv");
-        function setFullHeight() {
-            contentDiv.style.height = window.innerHeight + "px";
-        }
-        setFullHeight();
-        window.onresize = setFullHeight;
+        var loaderDiv = document.getElementById("loader");
 
         url = url || OpenSeadragon.getUrlParameter("img");
         if (!url) {
-            contentDiv.innerHTML =
+            loaderDiv.innerHTML =
                     "No image specified.<br>" +
                     "Set the image in the URL like this:<br>" +
                     "visualization.html?img=http://example.org/bigimage.jpg";
             return;
         }
 
-        // TODO: remove width/height
-        var image = new Image(window.innerWidth, window.innerHeight);
-        contentDiv.appendChild(image);
+        var image = new Image();
+        loaderDiv.appendChild(image);
 
         image.onload = function () {
-            contentDiv.removeChild(image);
             document.title = "OpenSeadragon " + url +
                     " (" + image.naturalWidth + "x" + image.naturalHeight + ")";
-            OpenSeadragon({
-                id: "contentDiv",
+            var viewer = OpenSeadragon({
+                id: "openseadragon",
                 prefixUrl: "openseadragon/images/",
                 tileSources: {
                     type: 'legacy-image-pyramid',
@@ -69,6 +62,12 @@ window.OpenSeadragonizer = {
                 maxZoomPixelRatio: 2,
                 showRotationControl: true
             });
+            viewer.addHandler("tile-drawn", function readyHandler() {
+                viewer.removeHandler("tile-drawn", readyHandler);
+                document.body.removeChild(loaderDiv);
+            });
+            //TODO: use tile-load-failed when upgrading OSD to 2.1 to detect
+            //errors.
         };
 
         image.src = url;
