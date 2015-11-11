@@ -29,18 +29,18 @@
  */
 window.OpenSeadragonizer = {
     open: function (url) {
-        var loaderDiv = document.getElementById("loader");
+        var popup = document.getElementById("popup");
+        popup.style.display = "none";
 
-        url = url || OpenSeadragon.getUrlParameter("img");
+        url = url || OpenSeadragon.getUrlParameter("img") ||
+                document.getElementById("url").value;
         if (!url) {
-            loaderDiv.innerHTML =
-                    "No image specified.<br>" +
-                    "Set the image in the URL like this:<br>" +
-                    "visualization.html?img=http://example.org/bigimage.jpg";
+            popup.style.display = "block";
             return;
         }
 
         var image = new Image();
+        var loaderDiv = document.getElementById("loader");
         loaderDiv.appendChild(image);
 
         image.onload = function () {
@@ -68,6 +68,13 @@ window.OpenSeadragonizer = {
             });
             //TODO: use tile-load-failed when upgrading OSD to 2.1 to detect
             //errors.
+        };
+
+        image.onerror = function () {
+            popup.style.display = "block";
+            loaderDiv.removeChild(image);
+            document.getElementById("error").textContent =
+                    "Can not retrieve requested image.";
         };
 
         image.src = url;
