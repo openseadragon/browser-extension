@@ -27,13 +27,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+document.getElementById("url").onkeyup = function (event) {
+    if (event.keyCode === 13) {
+        OpenSeadragonizer.open(document.getElementById('url').value);
+    }
+};
+
+document.getElementById("show-button").onclick = function () {
+    OpenSeadragonizer.open(document.getElementById('url').value);
+};
+
 window.OpenSeadragonizer = {
     open: function (url) {
         var popup = document.getElementById("popup");
         popup.style.display = "none";
 
-        url = url || OpenSeadragon.getUrlParameter("img") ||
-                document.getElementById("url").value;
+        url = url || OpenSeadragon.getUrlParameter("img");
         if (!url) {
             popup.style.display = "block";
             return;

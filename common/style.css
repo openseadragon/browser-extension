@@ -66,8 +66,7 @@ body {
     display: none;
     position: absolute;
     top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 12.5%;
     background-color: #EEE;
     width: 75%;
     font-size: x-large;
@@ -91,5 +90,22 @@ body {
 }
 
 #error {
+    margin-bottom: 1%;
     color: #800;
+    font-size: large;
+    font-style: italic;
+    text-align: center;
+}
+
+.powered-by {
+    position:  absolute;
+    color: #437AB2;
+    right: 1%;
+    bottom: 5%;
+    font-size: medium;
+    text-align: right;
+}
+
+.powered-by a {
+    color: #437AB2;
 }

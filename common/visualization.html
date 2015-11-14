@@ -40,11 +40,12 @@ POSSIBILITY OF SUCH DAMAGE.
         <div id="loader"><span class="img-vertical-align-helper"></span></div>
         <div id="popup">
             <div id="error"></div>
-            <label for="url">Enter the URL of an image to visualize:</label><br>
+            <label for="url">Enter the URL of an image to OpenSeadragonize:</label><br>
             <input type="url" id="url">
-            <button type="button" onclick="OpenSeadragonizer.open();">
-                Show!
-            </button>
+            <button type="button" id="show-button">Show!</button>
+            <span class="powered-by">
+                Powered by <a href="http://openseadragon.github.io">OpenSeadragon</a>
+            </span>
         </div>
 
         <script src='openseadragon/openseadragon.js'></script>
