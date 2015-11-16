@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<!--
+/*
 Copyright (C) 2015 OpenSeadragon contributors
 
 Redistribution and use in source and binary forms, with or without
@@ -27,29 +26,86 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
--->
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <link rel="shortcut icon" type="image/png" href="logo16.png">
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <title>OpenSeadragon</title>
-    </head>
-    <body>
-        <div id="openseadragon"></div>
-        <div id="loader"><span class="img-vertical-align-helper"></span></div>
-        <div id="popup">
-            <div id="error"></div>
-            <label for="url">Enter the URL of an image to OpenSeadragonize:</label><br>
-            <input type="url" id="url">
-            <button type="button" id="show-button">Show!</button>
-            <span class="powered-by">
-                Powered by <a href="http://openseadragon.github.io">OpenSeadragon</a>
-            </span>
-        </div>
+*/
+body {
+    margin: 0;
+    color:          #333;
+    font-family: Helvetica, Arial, FreeSans, san-serif;
+    background-color: #121621;
+}
 
-        <script src='openseadragon/openseadragon.js'></script>
-        <script src="visualization.js"></script>
-        <script src="platform-specific.js"></script>
-    </body>
-</html>
+#loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#loader img {
+    vertical-align: middle;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.img-vertical-align-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#openseadragon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#popup {
+    display: none;
+    position: absolute;
+    top: 30%;
+    left: 12.5%;
+    background-color: #EEE;
+    width: 75%;
+    font-size: x-large;
+    padding: 5px;
+    padding-right: 10px; /* compensate input */
+    border-radius: 5px;
+}
+
+#popup input {
+    width: 100%;
+    font-size: x-large;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#popup button {
+    font-size: x-large;
+    border-radius: 5px;
+    color: #333;
+    border: 1px solid black;
+}
+
+#error {
+    margin-bottom: 1%;
+    color: #800;
+    font-size: large;
+    font-style: italic;
+    text-align: center;
+}
+
+.powered-by {
+    position:  absolute;
+    color: #437AB2;
+    right: 1%;
+    bottom: 5%;
+    font-size: medium;
+    text-align: right;
+}
+
+.powered-by a {
+    color: #437AB2;
+}
