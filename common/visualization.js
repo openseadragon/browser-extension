@@ -27,66 +27,97 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-document.getElementById("url").onkeyup = function (event) {
-    if (event.keyCode === 13) {
-        OpenSeadragonizer.open(document.getElementById('url').value);
-    }
-};
+(function () {
+    var loaderElt = document.getElementById("loader");
+    var popupElt = document.getElementById("popup");
+    var urlElt = document.getElementById("url");
 
-document.getElementById("show-button").onclick = function () {
-    OpenSeadragonizer.open(document.getElementById('url').value);
-};
-
-window.OpenSeadragonizer = {
-    open: function (url) {
-        var popup = document.getElementById("popup");
-        popup.style.display = "none";
-
-        url = url || OpenSeadragon.getUrlParameter("img");
-        if (!url) {
-            popup.style.display = "block";
-            return;
+    urlElt.onkeyup = function (event) {
+        if (event.keyCode === 13) {
+            OpenSeadragonizer.open(urlElt.value);
         }
+    };
 
+    document.getElementById("show-button").onclick = function () {
+        OpenSeadragonizer.open(urlElt.value);
+    };
+
+    window.OpenSeadragonizer = {
+        open: function (url) {
+            popupElt.style.display = "none";
+
+            url = url || OpenSeadragon.getUrlParameter("img");
+            if (!url) {
+                popupElt.style.display = "block";
+                return;
+            }
+
+            var options = {
+                src: url,
+                container: document.getElementById("loader"),
+                crossOrigin: 'Anonymous'
+            };
+            loadImage(options, onImageLoaded, function (event) {
+                loaderElt.removeChild(event.image);
+                // We retry without CORS
+                delete options.crossOrigin;
+                loadImage(options, onImageLoaded, onError);
+            });
+            document.title = "OpenSeadragon " + url;
+        }
+    };
+
+    function loadImage(options, successCallback, errorCallback) {
         var image = new Image();
-        var loaderDiv = document.getElementById("loader");
-        loaderDiv.appendChild(image);
-
+        options.container.appendChild(image);
         image.onload = function () {
-            document.title = "OpenSeadragon " + url +
-                    " (" + image.naturalWidth + "x" + image.naturalHeight + ")";
-            var viewer = OpenSeadragon({
-                id: "openseadragon",
-                prefixUrl: "openseadragon/images/",
-                tileSources: {
-                    type: 'legacy-image-pyramid',
-                    levels: [{
-                            url: image.src,
-                            width: image.naturalWidth,
-                            height: image.naturalHeight
-                        }]
-                },
-                visibilityRatio: 1,
-                constrainDuringPan: false,
-                maxZoomPixelRatio: 2,
-                showRotationControl: true
+            successCallback({
+                image: image,
+                options: options
             });
-            viewer.addHandler("tile-drawn", function readyHandler() {
-                viewer.removeHandler("tile-drawn", readyHandler);
-                document.body.removeChild(loaderDiv);
-            });
-            //TODO: use tile-load-failed when upgrading OSD to 2.1 to detect
-            //errors.
         };
-
         image.onerror = function () {
-            popup.style.display = "block";
-            loaderDiv.removeChild(image);
-            document.getElementById("error").textContent =
-                    "Can not retrieve requested image.";
+            errorCallback({
+                image: image,
+                options: options
+            });
         };
-
-        image.src = url;
-        document.title = "OpenSeadragon " + url;
+        if (options.crossOrigin) {
+            image.crossOrigin = options.crossOrigin;
+        }
+        image.src = options.src;
     }
-};
+
+    function onImageLoaded(event) {
+        var image = event.image;
+        document.title = "OpenSeadragon " + image.src +
+                " (" + image.naturalWidth + "x" + image.naturalHeight + ")";
+        var viewer = OpenSeadragon({
+            id: "openseadragon",
+            prefixUrl: "openseadragon/images/",
+            tileSources: {
+                type: 'image',
+                url: image.src,
+                crossOriginPolicy: event.crossOrigin
+            },
+            visibilityRatio: 1,
+            constrainDuringPan: false,
+            maxZoomPixelRatio: 2,
+            showRotationControl: true
+        });
+        viewer.addHandler("tile-drawn", function readyHandler() {
+            viewer.removeHandler("tile-drawn", readyHandler);
+            document.body.removeChild(loaderElt);
+        });
+        //TODO: use tile-load-failed when upgrading OSD to 2.1 to detect
+        //errors.
+    }
+
+    function onError(event) {
+        popupElt.style.display = "block";
+        loaderElt.removeChild(event.image);
+        document.getElementById("error").textContent =
+                "Can not retrieve requested image.";
+    }
+
+})();
