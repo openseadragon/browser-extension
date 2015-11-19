@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" type="image/png" href="logo16.png">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>OpenSeadragon</title>
+    </head>
+    <body>
+        <div id="openseadragon"></div>
+        <div id="loader"><span class="img-vertical-align-helper"></span></div>
+        <div id="popup">
+            <div id="error"></div>
+            <label for="url">Enter the URL of an image to OpenSeadragonize:</label><br>
+            <input type="url" id="url" autofocus>
+            <button type="button" id="show-button">Show!</button>
+            <span class="powered-by">
+                Powered by <a href="http://openseadragon.github.io">OpenSeadragon</a>
+            </span>
+        </div>
+
+        <script src='openseadragon/openseadragon.js'></script>
+        <script src="index.js"></script>
+        <script src="platform-specific.js"></script>
+    </body>
+</html>

@@ -46,7 +46,8 @@
         open: function (url) {
             popupElt.style.display = "none";
 
-            url = url || OpenSeadragon.getUrlParameter("img");
+            url = url || decodeURIComponent(
+                    OpenSeadragon.getUrlParameter("img"));
             if (!url) {
                 popupElt.style.display = "block";
                 return;
@@ -109,8 +110,6 @@
             viewer.removeHandler("tile-drawn", readyHandler);
             document.body.removeChild(loaderElt);
         });
-        //TODO: use tile-load-failed when upgrading OSD to 2.1 to detect
-        //errors.
     }
 
     function onError(event) {
