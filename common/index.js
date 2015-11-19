@@ -104,8 +104,6 @@
                 url: image.src,
                 crossOriginPolicy: event.options.crossOrigin
             },
-            visibilityRatio: 1,
-            constrainDuringPan: false,
             maxZoomPixelRatio: 2,
             showRotationControl: true
         });
