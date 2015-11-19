@@ -102,7 +102,7 @@
             tileSources: {
                 type: 'image',
                 url: image.src,
-                crossOriginPolicy: event.crossOrigin
+                crossOriginPolicy: event.options.crossOrigin
             },
             visibilityRatio: 1,
             constrainDuringPan: false,
