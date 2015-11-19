@@ -46,11 +46,14 @@
         open: function (url) {
             popupElt.style.display = "none";
 
-            url = url || decodeURIComponent(
-                    OpenSeadragon.getUrlParameter("img"));
             if (!url) {
-                popupElt.style.display = "block";
-                return;
+                var imgUrlParameter = OpenSeadragon.getUrlParameter("img");
+                if (!imgUrlParameter) {
+                    popupElt.style.display = "block";
+                    return;
+                }
+                url = OpenSeadragon.getUrlParameter("encoded") ?
+                    decodeURIComponent(imgUrlParameter) : imgUrlParameter;
             }
 
             var options = {
