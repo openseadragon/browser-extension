@@ -44,7 +44,7 @@
             if (pm) {
                 pm.destroy();
             }
-            var url = self.data.url("visualization.html");
+            var url = self.data.url("index.html");
             pm = pageMod.PageMod({
                 include: url,
                 contentScriptFile: self.data.url("visualizationContentScript.js"),

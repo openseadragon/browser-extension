@@ -34,7 +34,8 @@
         title: "View with OpenSeadragon",
         onclick: function (event) {
             chrome.tabs.update({
-                url: "visualization.html?img=" + event.srcUrl
+                url: "index.html?img=" + encodeURIComponent(event.srcUrl) +
+                        "&encoded=true"
             });
         }
     });
