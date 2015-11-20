@@ -93,13 +93,21 @@ module.exports = function (grunt) {
         }
     });
 
+    function copyCommonDir(destination) {
+        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
+            // Only copy the minified version of OSD + the images dir.
+            if (subdir === "openseadragon" && filename !== "openseadragon.min.js") {
+                return;
+            }
+            subdir = subdir ? subdir + "/" : "";
+            grunt.file.copy(abspath, destination + subdir + filename);
+        });
+    }
+
     // ----------
     // Chromium build task.
     grunt.registerTask("build:chromium", function () {
-        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
-            subdir = subdir ? subdir + "/" : "";
-            grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
-        });
+        copyCommonDir("build/chromium/");
         grunt.file.recurse("chromium", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
@@ -110,10 +118,7 @@ module.exports = function (grunt) {
     // ----------
     // Firefox build task.
     grunt.registerTask("build:firefox", function () {
-        grunt.file.recurse("common", function (abspath, rootdir, subdir, filename) {
-            subdir = subdir ? subdir + "/" : "";
-            grunt.file.copy(abspath, "build/firefox/data/" + subdir + filename);
-        });
+        copyCommonDir("build/firefox/data/");
         grunt.file.recurse("firefox", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
             grunt.file.copy(abspath, "build/firefox/" + subdir + filename);
