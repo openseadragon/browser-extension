@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "OpenSeadragonizer",
     "description": "Display big images in OpenSeadragon to enable zoom and pan.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "background": {
         "scripts": ["chromium.js"]
     },
