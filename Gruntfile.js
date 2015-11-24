@@ -36,13 +36,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-jpm");
     grunt.loadNpmTasks("grunt-crx");
 
+    var releaseRoot = "../openseadragon.github.com/openseadragonizer/";
+
     // ----------
     // Project configuration.
     grunt.initConfig({
         clean: {
             build: ["build"],
             chromium: ["build/chromium"],
-            firefox: ["build/firefox"]
+            firefox: ["build/firefox"],
+            release: {
+                src: [releaseRoot],
+                options: {
+                    force: true
+                }
+            }
         },
         watch: {
             files: ["Gruntfile.js", "chromium/*", "firefox/*", "common/*"],
@@ -128,8 +136,19 @@ module.exports = function (grunt) {
     });
 
     // ----------
+    // Copy release task.
+    grunt.registerTask("copy:release", function () {
+        copyCommonDir(releaseRoot);
+    });
+
+    // ----------
     // Full build task.
     grunt.registerTask("build", ["clean", "build:chromium", "build:firefox"]);
+
+    // ----------
+    // Publish task.
+    // Copies the content of common to ../openseadragon.github.com/openseadragonizer.
+    grunt.registerTask("publish", ["clean:release", "copy:release"]);
 
     // ----------
     // Default task.
