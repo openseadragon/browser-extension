@@ -148,7 +148,7 @@ module.exports = function (grunt) {
     // ----------
     // Publish task.
     // Copies the content of common to ../openseadragon.github.com/openseadragonizer.
-    grunt.registerTask("publish", ["clean:release", "copy:release"]);
+    grunt.registerTask("publish", ["clean:release", "build", "copy:release"]);
 
     // ----------
     // Default task.
