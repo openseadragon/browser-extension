@@ -34,12 +34,12 @@
 
     urlElt.onkeyup = function (event) {
         if (event.keyCode === 13) {
-            OpenSeadragonizer.open(urlElt.value);
+            location.href = '?img=' + urlElt.value;
         }
     };
 
     document.getElementById("show-button").onclick = function () {
-        OpenSeadragonizer.open(urlElt.value);
+        location.href = '?img=' + urlElt.value;
     };
 
     window.OpenSeadragonizer = {
