@@ -33,8 +33,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-compress");
-    grunt.loadNpmTasks("grunt-jpm");
-    grunt.loadNpmTasks("grunt-crx");
 
     var releaseRoot = "../openseadragon.github.com/openseadragonizer/";
 
@@ -43,8 +41,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         clean: {
             build: ["build"],
-            chromium: ["build/chromium"],
-            firefox: ["build/firefox"],
+            webextension: ["build/webextension"],
             release: {
                 src: [releaseRoot],
                 options: {
@@ -53,32 +50,17 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: ["Gruntfile.js", "chromium/*", "firefox/*", "common/*"],
+            files: ["Gruntfile.js", "webextension/*", "common/*"],
             tasks: "watchTask"
         },
-        jpm: {
-            options: {
-                src: "build/firefox",
-                xpi: "build"
-            }
-        },
-        crx: {
-            crx: {
-                "src": "build/chromium/**/*",
-                "dest": "build",
-                "options": {
-                    "privateKey": "../openseadragonizer.pem"
-                }
-            }
-        },
         compress: {
-            chromium: {
+            webextension: {
                 options: {
-                    archive: "build/chromium.zip"
+                    archive: "build/webextension.zip"
                 },
                 files: [{
                         expand: true,
-                        cwd: "build/chromium",
+                        cwd: "build/webextension",
                         src: ["**/*"],
                         dest: ""
                     }
@@ -89,16 +71,8 @@ module.exports = function (grunt) {
 
     // ----------
     // Watch task.
-    // Called from the watch feature; does a full build or a particular browser build,
-    // depending on whether you used --browsername on the command line.
     grunt.registerTask("watchTask", function () {
-        if (grunt.option('chromium')) {
-            grunt.task.run("build:chromium");
-        } else if (grunt.option('firefox')) {
-            grunt.task.run("build:firefox");
-        } else {
             grunt.task.run("build");
-        }
     });
 
     function copyCommonDir(destination) {
@@ -113,26 +87,14 @@ module.exports = function (grunt) {
     }
 
     // ----------
-    // Chromium build task.
-    grunt.registerTask("build:chromium", function () {
-        copyCommonDir("build/chromium/");
-        grunt.file.recurse("chromium", function (abspath, rootdir, subdir, filename) {
+    // WebExtension build task.
+    grunt.registerTask("build:webextension", function () {
+        copyCommonDir("build/webextension/");
+        grunt.file.recurse("webextension", function (abspath, rootdir, subdir, filename) {
             subdir = subdir ? subdir + "/" : "";
-            grunt.file.copy(abspath, "build/chromium/" + subdir + filename);
+            grunt.file.copy(abspath, "build/webextension/" + subdir + filename);
         });
-        grunt.task.run("compress:chromium");
-    });
-
-    // ----------
-    // Firefox build task.
-    grunt.registerTask("build:firefox", function () {
-        copyCommonDir("build/firefox/data/");
-        grunt.file.recurse("firefox", function (abspath, rootdir, subdir, filename) {
-            subdir = subdir ? subdir + "/" : "";
-            grunt.file.copy(abspath, "build/firefox/" + subdir + filename);
-        });
-        grunt.file.copy("build/firefox/data/logo48.png", "build/firefox/icon.png");
-        grunt.task.run("jpm:xpi");
+        grunt.task.run("compress:webextension");
     });
 
     // ----------
@@ -143,7 +105,7 @@ module.exports = function (grunt) {
 
     // ----------
     // Full build task.
-    grunt.registerTask("build", ["clean", "build:chromium", "build:firefox"]);
+    grunt.registerTask("build", ["clean", "build:webextension"]);
 
     // ----------
     // Publish task.
