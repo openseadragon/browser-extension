@@ -37,20 +37,14 @@ If you want Grunt to watch your source files and rebuild every time you change o
 
 1. Go to your Chrome settings and then extensions.
 1. Turn on the "Developer mode" checkbox.
-1. Choose "Load unpacked extension" and select build/chromium from this repository.
+1. Choose "Load unpacked extension" and select build/webextension from this repository.
 
 ### Testing in Firefox
 
-There are two ways to load the extension for testing in Firefox:
+1. Type `about:debugging` in the address bar.
+1. Click on "Load Temporary Add-on" and select build/webextension from this repository.
 
-#### Using jpm
+### Publishing the standalone web site
 
-1. Install [jpm](https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/jpm) globally with `npm install jpm -g`.
-1. Run `jpm run` inside build/firefox
- 
-It will start a fresh instance of Firefox with the extension installed.
-
-#### Loading the xpi
-
-1. Go to the extensions list (about:addons).
-1. Drag and drop the build/@openseadragonizer-[version].xpi file.
+1. Run `grunt publish`.
+1. Commit and push the `../openseadragon.github.com` website.

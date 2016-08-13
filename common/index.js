@@ -42,34 +42,32 @@
         location.href = '?img=' + urlElt.value;
     };
 
-    window.OpenSeadragonizer = {
-        open: function (url) {
-            popupElt.style.display = "none";
+    init();
 
-            if (!url) {
-                var imgUrlParameter = OpenSeadragon.getUrlParameter("img");
-                if (!imgUrlParameter) {
-                    popupElt.style.display = "block";
-                    return;
-                }
-                url = OpenSeadragon.getUrlParameter("encoded") ?
-                    decodeURIComponent(imgUrlParameter) : imgUrlParameter;
-            }
+    function init() {
+        popupElt.style.display = "none";
 
-            var options = {
-                src: url,
-                container: document.getElementById("loader"),
-                crossOrigin: 'Anonymous'
-            };
-            loadImage(options, onImageLoaded, function (event) {
-                loaderElt.removeChild(event.image);
-                // We retry without CORS
-                delete options.crossOrigin;
-                loadImage(options, onImageLoaded, onError);
-            });
-            document.title = "OpenSeadragon " + url;
+        var imgUrlParameter = OpenSeadragon.getUrlParameter("img");
+        if (!imgUrlParameter) {
+            popupElt.style.display = "block";
+            return;
         }
-    };
+        var url = OpenSeadragon.getUrlParameter("encoded") ?
+            decodeURIComponent(imgUrlParameter) : imgUrlParameter;
+
+        var options = {
+            src: url,
+            container: document.getElementById("loader"),
+            crossOrigin: 'Anonymous'
+        };
+        loadImage(options, onImageLoaded, function (event) {
+            loaderElt.removeChild(event.image);
+            // We retry without CORS
+            delete options.crossOrigin;
+            loadImage(options, onImageLoaded, onError);
+        });
+        document.title = "OpenSeadragon " + url;
+    }
 
     function loadImage(options, successCallback, errorCallback) {
         var image = new Image();
