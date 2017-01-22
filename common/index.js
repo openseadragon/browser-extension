@@ -32,15 +32,18 @@
     var popupElt = document.getElementById("popup");
     var urlElt = document.getElementById("url");
 
+    function show() {
+        location.href = '?img=' + encodeURIComponent(urlElt.value) +
+            '&encoded=true';
+    }
+
     urlElt.onkeyup = function (event) {
         if (event.keyCode === 13) {
-            location.href = '?img=' + urlElt.value;
+            show();
         }
     };
 
-    document.getElementById("show-button").onclick = function () {
-        location.href = '?img=' + urlElt.value;
-    };
+    document.getElementById("show-button").onclick = show;
 
     init();
 
