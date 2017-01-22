@@ -29,7 +29,7 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 body {
     margin: 0;
-    color:          #333;
+    color: #333;
     font-family: Helvetica, Arial, FreeSans, san-serif;
     background-color: #121621;
 }
@@ -98,8 +98,27 @@ body {
     text-align: center;
 }
 
+#loading-popup {
+    display: none;
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    text-align: center;
+}
+
+#loading-message {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: x-large;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#loading-message > * {
+    vertical-align: middle;
+}
+
 .powered-by {
-    position:  absolute;
+    position: absolute;
     color: #437AB2;
     right: 1%;
     bottom: 5%;
