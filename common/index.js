@@ -31,16 +31,20 @@
     var loaderElt = document.getElementById("loader");
     var popupElt = document.getElementById("popup");
     var urlElt = document.getElementById("url");
+    var loadingPopupElt = document.getElementById("loading-popup");
+
+    function show() {
+        location.href = '?img=' + encodeURIComponent(urlElt.value) +
+            '&encoded=true';
+    }
 
     urlElt.onkeyup = function (event) {
         if (event.keyCode === 13) {
-            location.href = '?img=' + urlElt.value;
+            show();
         }
     };
 
-    document.getElementById("show-button").onclick = function () {
-        location.href = '?img=' + urlElt.value;
-    };
+    document.getElementById("show-button").onclick = show;
 
     init();
 
@@ -70,15 +74,18 @@
     }
 
     function loadImage(options, successCallback, errorCallback) {
+        loadingPopupElt.style.display = "block";
         var image = new Image();
         options.container.appendChild(image);
         image.onload = function () {
+            loadingPopupElt.style.display = "none";
             successCallback({
                 image: image,
                 options: options
             });
         };
         image.onerror = function () {
+            loadingPopupElt.style.display = "none";
             errorCallback({
                 image: image,
                 options: options
@@ -105,8 +112,7 @@
             maxZoomPixelRatio: 2,
             showRotationControl: true
         });
-        viewer.addHandler("tile-drawn", function readyHandler() {
-            viewer.removeHandler("tile-drawn", readyHandler);
+        viewer.addOnceHandler("tile-drawn", function() {
             document.body.removeChild(loaderElt);
         });
     }
@@ -115,7 +121,7 @@
         popupElt.style.display = "block";
         loaderElt.removeChild(event.image);
         document.getElementById("error").textContent =
-                "Can not retrieve requested image.";
+                "Cannot retrieve requested image.";
     }
 
 })();
