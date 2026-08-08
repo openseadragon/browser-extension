@@ -26,17 +26,44 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Copyright 2017-2024 OpenSeadragon contributors
+ *
+ * Updated 2025
+ * Script is adapted for Chrome Manifest V3.
+ * Context menu creation is now performed during extension installation
+ * to avoid duplication each time the service worker wakes up.
+ * The `onClicked` event listener is persistent.
  */
-(function () {
+
+'use strict';
+
+const CONTEXT_MENU_ID = "openseadragon-image";
+
+// La fonction de rappel pour l'événement onClicked.
+function onClickHandler(info, tab) {
+    // Vérifie que le clic provient bien de notre élément de menu.
+    if (info.menuItemId === CONTEXT_MENU_ID) {
+        // Construit l'URL de la page de visualisation avec l'URL de l'image en paramètre.
+        const viewerUrl = chrome.runtime.getURL('common/index.html?img=' + encodeURIComponent(info.srcUrl));
+        
+        // Ouvre la page de visualisation dans un nouvel onglet.
+        chrome.tabs.create({
+            url: viewerUrl
+        });
+    }
+}
+
+// Ajoute un écouteur d'événements pour les clics sur le menu contextuel.
+// C'est la méthode requise dans Manifest V3.
+chrome.contextMenus.onClicked.addListener(onClickHandler);
+
+// Met en place l'élément du menu contextuel lors de l'installation de l'extension.
+// L'événement `onInstalled` est le bon endroit pour initialiser des éléments persistants.
+chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
-        type: "normal",
-        contexts: ["image"],
-        title: "View with OpenSeadragon",
-        onclick: function (event) {
-            chrome.tabs.update({
-                url: "index.html?img=" + encodeURIComponent(event.srcUrl) +
-                        "&encoded=true"
-            });
-        }
+        id: CONTEXT_MENU_ID,
+        title: "Ouvrir dans OpenSeadragon", // Titre affiché dans le menu contextuel
+        contexts: ["image"] // Le menu n'apparaîtra que lors d'un clic droit sur une image
     });
-})();
+});
